@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_partner_restricted,res.partner restricted,base.model_res_partner,group_contact_access_restricted,1,1,1,1
+access_contact_category_user,contact.category user,model_contact_category,base.group_user,1,0,0,0
+access_contact_category_manager,contact.category manager,model_contact_category,group_contact_access_manager,1,1,1,1
+access_contact_category_access_manager,contact.category.access manager,model_contact_category_access,group_contact_access_manager,1,1,1,1
+access_contact_field_filter_manager,contact.field.filter manager,model_contact_field_filter,group_contact_access_manager,1,1,1,1

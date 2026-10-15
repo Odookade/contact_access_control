@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="contact_category_view_list" model="ir.ui.view">
+        <field name="name">contact.category.list</field>
+        <field name="model">contact.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="assignment"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="contact_category_view_form" model="ir.ui.view">
+        <field name="name">contact.category.form</field>
+        <field name="model">contact.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_partners" type="object" class="oe_stat_button" icon="fa-address-book">
+                            <field name="partner_count" widget="statinfo" string="Contacts"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Installers"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="assignment" widget="radio"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Access" name="access">
+                            <field name="access_ids">
+                                <list editable="bottom">
+                                    <field name="user_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                    <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                    <field name="perm_archive"/>
+                                </list>
+                            </field>
+                            <div class="text-muted">
+                                Every line grants read access to the contacts of this category (and their addresses).
+                                Lines only affect users with the "Contacts Access: Restricted" level.
+                            </div>
+                        </page>
+                        <page string="Membership Rule" name="rule" invisible="assignment != 'rule'">
+                            <field name="domain" widget="domain" options="{'model': 'res.partner', 'in_dialog': True}"/>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="What this category is used for..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="contact_category_view_search" model="ir.ui.view">
+        <field name="name">contact.category.search</field>
+        <field name="model">contact.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="access_ids" string="User" filter_domain="[('access_ids.user_ids', 'ilike', self)]"/>
+                <filter name="manual" string="Manual" domain="[('assignment', '=', 'manual')]"/>
+                <filter name="rule" string="Rule-based" domain="[('assignment', '=', 'rule')]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="contact_category_action" model="ir.actions.act_window">
+        <field name="name">Access Categories</field>
+        <field name="res_model">contact.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a contact access category</p>
+            <p>Group contacts (customers, vendors, installers...) and decide who can see and manage them.</p>
+        </field>
+    </record>
+</odoo>
