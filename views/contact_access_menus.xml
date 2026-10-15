@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_contact_access_root" name="Access Control"
+              parent="contacts.res_partner_menu_config" sequence="1"
+              groups="group_contact_access_manager"/>
+    <menuitem id="menu_contact_category" action="contact_category_action"
+              parent="menu_contact_access_root" sequence="10"/>
+    <menuitem id="menu_contact_field_filter" action="contact_field_filter_action"
+              parent="menu_contact_access_root" sequence="20"/>
+</odoo>

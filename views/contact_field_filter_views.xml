@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="contact_field_filter_view_list" model="ir.ui.view">
+        <field name="name">contact.field.filter.list</field>
+        <field name="model">contact.field.filter</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="model_id"/>
+                <field name="field_id"/>
+                <field name="comodel"/>
+                <field name="category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="group_ids" widget="many2many_tags" optional="show"/>
+                <field name="enforce"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="contact_field_filter_view_form" model="ir.ui.view">
+        <field name="name">contact.field.filter.form</field>
+        <field name="model">contact.field.filter</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Field">
+                            <field name="model_id" options="{'no_create': True}"/>
+                            <field name="field_id" options="{'no_create': True}" invisible="not model_id"/>
+                            <field name="comodel" invisible="not field_id"/>
+                        </group>
+                        <group string="Allowed Values">
+                            <field name="category_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create': True}"/>
+                            <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="enforce"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Why this filter exists..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="contact_field_filter_view_search" model="ir.ui.view">
+        <field name="name">contact.field.filter.search</field>
+        <field name="model">contact.field.filter</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="model_id"/>
+                <field name="field_id"/>
+                <filter name="enforced" string="Enforced" domain="[('enforce', '=', True)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_model" string="Model" context="{'group_by': 'model_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="contact_field_filter_action" model="ir.actions.act_window">
+        <field name="name">Contact Field Filters</field>
+        <field name="res_model">contact.field.filter</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Filter a contact selection field</p>
+            <p>Choose which access categories or user groups can be selected in a contact or user field
+                (e.g. only vendors in "Vendor" fields). Changes apply after reloading the page.</p>
+        </field>
+    </record>
+</odoo>

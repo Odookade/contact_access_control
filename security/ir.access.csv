@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_res_partner_restricted,Contacts Access: restricted users can create / update / delete contacts (scope applied by res.partner._access_domain),res.partner,group_contact_access_restricted,cud,
+access_contact_category_user,contact.category user,contact.category,base.group_user,r,
+access_contact_category_manager,contact.category manager,contact.category,group_contact_access_manager,crud,
+restrict_contact_category_company,Contact categories: multi-company,contact.category,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_contact_category_access_manager,contact.category.access manager,contact.category.access,group_contact_access_manager,crud,
+access_contact_field_filter_manager,contact.field.filter manager,contact.field.filter,group_contact_access_manager,crud,
